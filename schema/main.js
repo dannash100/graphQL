@@ -30,6 +30,12 @@ const queryType = new GraphQLObjectType({
                 }
                 return rolls
             }
+        },
+        usersCount: {
+            type: GraphQLInt,
+            // destructured db instead of context.db
+            resolve: (_, args, { db }) =>
+                db.collection('users').count() 
         }
     }
 })

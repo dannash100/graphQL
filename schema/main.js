@@ -7,7 +7,6 @@ const {
 } = require('graphql')
 
 const roll = () => Math.floor(6 * Math.random()) + 1
-
 const queryType = new GraphQLObjectType({
     name: 'RootQuery',
     fields: {
@@ -15,10 +14,13 @@ const queryType = new GraphQLObjectType({
             type: GraphQLString,
             resolve: () => 'world'
         },
-        diceRoll:{
+        diceRoll: {
             type: new GraphQLList(GraphQLInt),
             args: {
-                count: { type: GraphQLInt }
+                count: {
+                    type: GraphQLInt,
+                    defaultValue: 2
+                }
             },
             //first argument _ represents the parent object and it's undefined on the first root-level queries
             resolve: (_, args) => {

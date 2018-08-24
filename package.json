@@ -6,6 +6,7 @@
   "author": "dannash100 <danster15@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "graphql": "0.6.2"
+    "graphql": "0.6.2",
+    "mongodb": "^3.1.3"
   }
 }

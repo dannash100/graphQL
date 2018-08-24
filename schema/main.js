@@ -16,6 +16,7 @@ const queryType = new GraphQLObjectType({
         },
         diceRoll: {
             type: new GraphQLList(GraphQLInt),
+            description: '**simulate** a dice roll determined by count',
             args: {
                 count: {
                     type: GraphQLInt,
@@ -34,12 +35,36 @@ const queryType = new GraphQLObjectType({
         usersCount: {
             type: GraphQLInt,
             // destructured db instead of context.db
+            description: "Total number of users in database",
             resolve: (_, args, { db }) =>
                 db.collection('users').count() 
         }
     }
 })
 
+
+
+
+// class GraphQLSchema {
+//     constructor(config: GraphQLSchemaConfig)
+// }
+
+// type GraphQLSchemaConfig = {
+//     query: GraphQLObjectType;
+//     mutation?: ?GraphQLObjectType;
+// }
+
+// class GraphQLObjectType {
+//     constructor(config: GraphQLObjectTypeConfig)
+// }
+
+// type GraphQLObjectTypeConfig = {
+//     name: string
+//     description?: ?string
+//     fields: GraphQLFieldConfigMapThunk | GraphQLFieldConfigMap
+//     interfaces?: ...
+    
+// }
 
 
 const mySchema = new GraphQLSchema({

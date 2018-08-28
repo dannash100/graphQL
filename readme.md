@@ -1,15 +1,26 @@
 # Notes on Learning GraphQL by Samer Buna, 2016, Packt Publishing
 
+## GraphQL Schema
+
+* define capabilities of the server- types and directives
+
+* schema object instance of *GraphQLSchema* the starting root-field- the constructor expects a configuration object
+* accepts queries and optional mutation properties as instances of *GraphQLObjectType*
 ```javascript
 class GraphQLSchema {
     constructor(config: GraphQLSchemaConfig)
 }
+```
+* accepts queries and optional mutation properties as instances of *GraphQLObjectType*
+```javascript
 
 type GraphQLSchemaConfig = {
     query: GraphQLObjectType;
     mutation?: ?GraphQLObjectType;
 }
-
+```
+* Object types expect a config, including a name, description, fields property. 
+```javascript
 class GraphQLObjectType {
     constructor(config: GraphQLObjectTypeConfig)
 }
@@ -22,6 +33,17 @@ type GraphQLObjectTypeConfig = {
     
 }
 ```
+
+## Type System
+
+* GraphQl strongly typed language
+* GraphQLFieldConfig - output type which can be a custom type, i.e EmployeeType or a GraphQLScalarType - GraphQL + 
+- Int
+- Float
+- String
+- Boolean
+- ID
+
 
 ## The Query Language
 
@@ -75,6 +97,34 @@ field @skip(if: $BooleanValue)
 
 ### Aliases
 * rename simply by giving a value to the key
+```javascript
+{
+    responses: comments
+}
+```
+* can be refered to by aliases in further queries
 
 ### Fragments
-*
+* avoid repetition with fragments, to represent a type of data and its associated fields. an example fragment to represent the planets in a solar system
+```javascript
+
+query SolarSystems {
+    solarSystem: solarSystem(id: 42)
+    ...Planets
+}
+
+fragment Planets on SolarSystem {
+    planets {
+        orbitalPeriod
+        knownSatellites 
+        surfaceGravity
+    }
+} 
+```
+* can use variables in fragments- if used the variable has to be defined by the operation that uses the fragment
+* inline fragments - if a type covers multiple objects
+
+### Mutations
+
+* a good runtime implementation executes multiple mutations in a single request
+* can read and write at same time 

@@ -38,11 +38,11 @@ type GraphQLObjectTypeConfig = {
 
 * GraphQl strongly typed language
 * GraphQLFieldConfig - output type which can be a custom type, i.e EmployeeType or a GraphQLScalarType - GraphQL + 
-- Int
-- Float
-- String
-- Boolean
-- ID
+    - Int
+    - Float
+    - String
+    - Boolean
+    - ID
 
 
 ## The Query Language

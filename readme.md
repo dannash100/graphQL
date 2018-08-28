@@ -1,4 +1,4 @@
-#Notes on Learning GraphQL by Samer Buna, 2016, Packt Publishing#
+# Notes on Learning GraphQL by Samer Buna, 2016, Packt Publishing
 
 ```javascript
 class GraphQLSchema {
@@ -23,7 +23,7 @@ type GraphQLObjectTypeConfig = {
 }
 ```
 
-##The Query Language## 
+## The Query Language
 
 ```javascript
 // query name optional
@@ -43,12 +43,12 @@ query QueryName {
 }
 ```
 
-###Fields###
+### Fields
 
 * Think of them as functions, they return something as a response, they take arguments
 
 
-###Variables###
+### Variables
 
 * Make queries generic/reusable - functional 
 * the query must be passed this information to set scope - exclamation mark after Int indicates that it must be passed an integer and will not except null
@@ -63,7 +63,7 @@ query ArticleComments($articleId: Int!, $showInformation: Boolean!) {
 "/graphql?query={...}&variables={...}"
 ```
 
-###Directives###
+### Directives
 
 * Customize structure of response based on a variable- i.e boolean. 
 * Directives can be used in multiple locations in a GraphQL document, including an operation, a fragment, or a field. 
@@ -73,8 +73,8 @@ field @include(if: $Boolean)
 field @skip(if: $BooleanValue)
 ```
 
-###Aliases###
+### Aliases
 * rename simply by giving a value to the key
 
-###Fragments###
+### Fragments
 *

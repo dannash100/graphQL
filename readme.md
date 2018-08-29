@@ -59,7 +59,7 @@ const EmployeeType = newGraphQLObjectType({
 
 ### Enums
 
-* a list of possible values and can only be one value- I.e numbers that represent a role. 
+* a list of possible values and can only be one value- I.e integers or strings that represent a role for a switch case
 ```javascript
 const ContractType = new GraphQLEnumType({
     name: 'Contract',
@@ -73,8 +73,10 @@ const ContractType = new GraphQLEnumType({
 
 ### Resolve Function
 * can accept four optional arguments 
-    - source?: represents the field we're configuring. Represents the object we respond with. - i.e can extract data from a data object. 
-    - args?: arguments
+    - source: represents the field we're configuring. Represents the object we respond with. - i.e can extract data from a data object. 
+    - args: arguments
+    - context: global context object that can be passed to all resolve functions i.e database connection or authenticated user session, cache object.
+    - info: collection of info about current execution state. - can be used to dynamicaly modify the resolved value of a field. 
 
 
 * **interfaces** and **unions** are abstract types that can be used to group other types

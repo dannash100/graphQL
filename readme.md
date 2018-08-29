@@ -1,5 +1,7 @@
 # Notes on Learning GraphQL by Samer Buna, 2016, Packt Publishing
 
+### to run: $mongod && node index.js
+
 ## GraphQL Schema
 
 * define capabilities of the server- types and directives

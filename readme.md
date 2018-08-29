@@ -32,7 +32,17 @@ type GraphQLObjectTypeConfig = {
     interfaces?: ...
     
 }
+
+const EmployeeType = newGraphQLObjectType({
+    name: 'Employee',
+    fields: {
+        name: { type: GraphQLString },
+        departmentName: { type: GraphQLString },
+    }
+})
+
 ```
+
 
 ## Type System
 
@@ -43,6 +53,22 @@ type GraphQLObjectTypeConfig = {
     - String
     - Boolean
     - ID
+
+* **interfaces** and **unions** are abstract types that can be used to group other types
+* interfaces are a guarantee that the object will support all fields that are defined by the interface. can be used directly in fields. 
+
+```javascript
+    const PersonType = new GraphQLInterfaceType({
+        name: 'Person',
+        fields: {
+            name: {type: }
+        }
+    })
+    // referenced in other object types like this
+    fields: {
+        interfaces: [PersonType]
+    }
+```
 
 
 ## The Query Language
@@ -95,15 +121,6 @@ field @include(if: $Boolean)
 field @skip(if: $BooleanValue)
 ```
 
-### Aliases
-* rename simply by giving a value to the key
-```javascript
-{
-    responses: comments
-}
-```
-* can be refered to by aliases in further queries
-
 ### Fragments
 * avoid repetition with fragments, to represent a type of data and its associated fields. an example fragment to represent the planets in a solar system
 ```javascript
@@ -124,7 +141,39 @@ fragment Planets on SolarSystem {
 * can use variables in fragments- if used the variable has to be defined by the operation that uses the fragment
 * inline fragments - if a type covers multiple objects
 
-### Mutations
 
+## Unions 
+* Unions can group two objects that don't have any fields in common with a certain logic. 
+* Union to represent a resume section that can be either education or experience type. 
+```javascript
+    const ResumeSectionType = new GraphQLUnionType({
+     name: 'ResumeSection',
+     types: [ExperienceType, EducationType],
+     resolveType(value) {
+       if (value instanceof Experience) {
+         return ExperienceType;
+       }
+       if (value instanceof Education) {
+         return EducationType;
+       }
+} });
+```
+* Inline fragments can be used to ask about fields of the types that the union represents
+```javascript
+ query ResumeInformation {
+     ResumeSection {
+       ... on Education {
+         schoolName,
+         fieldOfStudy
+       }
+       ... on Experience {
+         companyName,
+title }
+} }
+```
+
+
+
+### Mutations
 * a good runtime implementation executes multiple mutations in a single request
 * can read and write at same time 

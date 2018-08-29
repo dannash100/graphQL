@@ -44,29 +44,6 @@ const queryType = new GraphQLObjectType({
 
 
 
-
-// class GraphQLSchema {
-//     constructor(config: GraphQLSchemaConfig)
-// }
-
-// type GraphQLSchemaConfig = {
-//     query: GraphQLObjectType;
-//     mutation?: ?GraphQLObjectType;
-// }
-
-// class GraphQLObjectType {
-//     constructor(config: GraphQLObjectTypeConfig)
-// }
-
-// type GraphQLObjectTypeConfig = {
-//     name: string
-//     description?: ?string
-//     fields: GraphQLFieldConfigMapThunk | GraphQLFieldConfigMap
-//     interfaces?: ...
-    
-// }
-
-
 const mySchema = new GraphQLSchema({
     query: queryType
 })

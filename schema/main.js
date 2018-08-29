@@ -5,13 +5,30 @@ const {
     GraphQLInt,
     GraphQLList,
     GraphQLBoolean,
+    GraphQLEnumType
 } = require('graphql')
 
+
+const roll = () => Math.floor(6 * Math.random()) + 1
+
+const toTitleCase = str => {
+return str.replace(/\w\S*/g, txt =>
+    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+}
 
 const exampleEmployee = {
     firstName: 'Dan',
     lastName: 'Nash'
 }
+
+const LetterCaseType = new GraphQLEnumType({
+    name: 'LetterCase',
+    values: {
+        TITLE: { value: 'title' },
+        UPPER: { value: 'upper' },
+        LOWER: { value: 'lower' }
+    }
+})
 
 const EmployeeType = new GraphQLObjectType({
     name: 'Employee',
@@ -27,11 +44,27 @@ const EmployeeType = new GraphQLObjectType({
                     fullName.toUpperCase() : fullName
             }
         },
-        boss: { type: EmployeeType }
+        nameForCase: {
+            type: GraphQLString, 
+            args: {
+                letterCase: { type: LetterCaseType }
+            },
+            resolve: (obj, args) => {
+                let fullName = `${obj.firstName} ${obj.lastName}`
+                switch (args.letterCase) {
+                    case 'lower': 
+                        return fullName.toLowerCase()
+                    case 'upper':
+                        return fullName.toUpperCase()
+                    case 'title':
+                        return toTitleCase(fullName)
+                } 
+            }
+        },
+        boss: { type: EmployeeType },
+        
     })
 })
-
-const roll = () => Math.floor(6 * Math.random()) + 1
 
 const queryType = new GraphQLObjectType({
     name: 'RootQuery',

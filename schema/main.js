@@ -3,13 +3,43 @@ const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLInt,
-    GraphQLList
+    GraphQLList,
+    GraphQLBoolean,
 } = require('graphql')
 
+
+const exampleEmployee = {
+    firstName: 'Dan',
+    lastName: 'Nash'
+}
+
+const EmployeeType = new GraphQLObjectType({
+    name: 'Employee',
+    fields: () => ({
+        name: {
+            type: GraphQLString,
+            args: {
+                upperCase: { type: GraphQLBoolean }
+            },
+            resolve: (obj, args) => {
+                let fullName = `${obj.firstName} ${obj.lastName}`
+                return args.upperCase ? 
+                    fullName.toUpperCase() : fullName
+            }
+        },
+        boss: { type: EmployeeType }
+    })
+})
+
 const roll = () => Math.floor(6 * Math.random()) + 1
+
 const queryType = new GraphQLObjectType({
     name: 'RootQuery',
     fields: {
+        exampleEmployee: {
+            type: EmployeeType,
+            resolve: () => exampleEmployee
+        },
         hello: {
             type: GraphQLString,
             resolve: () => 'world'

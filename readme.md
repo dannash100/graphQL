@@ -53,6 +53,29 @@ const EmployeeType = newGraphQLObjectType({
     - String
     - Boolean
     - ID
+* any type can be wrapped in a 
+    - GraphQLList - an array of data
+    - GraphQLNonNull - enforces the value it wraps is never null. 
+
+### Enums
+
+* a list of possible values and can only be one value- I.e numbers that represent a role. 
+```javascript
+const ContractType = new GraphQLEnumType({
+    name: 'Contract',
+    values: {
+        FULLTIME:  { value: 1 },
+        PARTTIME:  { value: 2 },
+        SHIFTWORK: { value: 3 }
+    }
+})
+```
+
+### Resolve Function
+* can accept four optional arguments 
+    - source?: represents the field we're configuring. Represents the object we respond with. - i.e can extract data from a data object. 
+    - args?: arguments
+
 
 * **interfaces** and **unions** are abstract types that can be used to group other types
 * interfaces are a guarantee that the object will support all fields that are defined by the interface. can be used directly in fields. 
@@ -143,6 +166,7 @@ fragment Planets on SolarSystem {
 
 
 ## Unions 
+
 * Unions can group two objects that don't have any fields in common with a certain logic. 
 * Union to represent a resume section that can be either education or experience type. 
 ```javascript
@@ -175,5 +199,6 @@ title }
 
 
 ### Mutations
+
 * a good runtime implementation executes multiple mutations in a single request
 * can read and write at same time 

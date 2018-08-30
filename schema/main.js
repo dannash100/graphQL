@@ -9,15 +9,25 @@ const {
 } = require('graphql')
 
 const fs = require('fs')
+const os = require("os")
 
 
 const readLastLinePromise = path => {
   return new Promise((resolve, reject) => {
     fs.readFile(path, (err, data) => {
       if (err) throw reject(err)
-      resolve(data.toString().trim().split('\n').slice(-1)[0])
+      resolve(data.toString().trim().split('\n').slice(-1)[0]) // slice(-1)[0] to get last entry
     })
   })
+}
+
+const appendLinePromise = (path, line) => {
+  return new Promise((resolve, reject) => {
+    fs.appendFile(path, line + "\r\n", err => {
+      if (err) throw reject(err)
+      resolve(line)
+    })
+  }) 
 }
 
 const roll = () => Math.floor(6 * Math.random()) + 1
@@ -126,10 +136,24 @@ const queryType = new GraphQLObjectType({
   }
 })
 
+mutationType = new GraphQLObjectType({
+  name: 'RootMutation',
+  fields: {
+    addQuote: {
+      type: GraphQLString,
+      args: {
+        body: { type: GraphQLString }
+      },
+      resolve: (_, args) => 
+        appendLinePromise('data/quotes', args.body)
+    }
+  }
+})
 
 
 const mySchema = new GraphQLSchema({
-  query: queryType
+  query: queryType,
+  mutation: mutationType
 })
 
 module.exports = mySchema

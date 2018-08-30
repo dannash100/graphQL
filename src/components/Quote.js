@@ -1,4 +1,6 @@
 import React from "react";
+import Relay from "react-relay/classic";
+
 
 class Quote extends React.Component {
   render() {
@@ -10,5 +12,9 @@ class Quote extends React.Component {
     );
   }
 }
+
+Quote = Relay.createContainer(Quote, {
+  fragments: {}
+})
 
 export default Quote;

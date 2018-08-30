@@ -11,12 +11,15 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.0",
+    "babel-plugin-relay": "^1.6.2",
     "express": "4.14.0",
     "express-graphql": "0.5.3",
     "graphql": "0.6.2",
     "mongodb": "2.2.5",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-relay": "^1.6.2",
+    "relay-compiler": "^1.6.2",
     "webpack": "^4.17.1"
   },
   "devDependencies": {

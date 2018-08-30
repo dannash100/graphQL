@@ -16,12 +16,11 @@ MongoClient.connect(MONGO_URL, (err, db) => {
     app.use('/graphql', graphqlHTTP({
         schema: mySchema,
         context: { db },
-        // explore GraphQL queries and mutations- ctrl + space gives query autocomplete 
         graphiql: true
     }))
 
     app.listen(3000, () => 
-        console.log('running express.js on port 300')
+        console.log('running express.js on port 3000')
     )
 })
 

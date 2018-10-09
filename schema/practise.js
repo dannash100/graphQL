@@ -9,7 +9,6 @@ const {
 } = require('graphql')
 
 const fs = require('fs')
-const os = require("os")
 
 
 const readLastLinePromise = path => {

@@ -171,7 +171,7 @@ fragment Planets on SolarSystem {
 * inline fragments - if a type covers multiple objects
 
 
-## Unions 
+### Unions 
 
 * Unions can group two objects that don't have any fields in common with a certain logic. 
 * Union to represent a resume section that can be either education or experience type. 
@@ -208,3 +208,24 @@ title }
 
 * a good runtime implementation executes multiple mutations in a single request
 * can read and write at same time 
+
+### Caching Schema in JSON file
+
+* /index.js above port listen 
+
+```javascript
+const fs = require('fs')
+const path = require('path')
+const { introspectionQuery } = require('graphql/utilities')
+const { graphql } = require('graphql')
+
+graphql(mySchema, introspectionQuery)
+    .then(result => {
+        fs.writeFileSync(
+            path.join(__dirname, 'cache/schema.json'),
+            JSON.stringify(result, null, 2)
+        )
+        console.log('Generated cached schema.json file;')
+    })
+    .catch(console.error)
+```

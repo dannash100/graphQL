@@ -186,7 +186,7 @@ fragment Planets on SolarSystem {
        if (value instanceof Education) {
          return EducationType;
        }
-} });
+} })
 ```
 * Inline fragments can be used to ask about fields of the types that the union represents
 ```javascript

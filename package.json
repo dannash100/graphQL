@@ -37,6 +37,6 @@
     ]
   },
   "scripts": {
-    "dev": "webpack & nodemon ./"
+    "dev": "nodemon ./ & webpack"
   }
 }

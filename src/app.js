@@ -17,7 +17,6 @@ class AppRoute extends Relay.Route {
 }
 
 class QuotesLibrary extends React.Component {
-
   render() {
     return (
       <div className="quotes-list">
@@ -29,13 +28,10 @@ class QuotesLibrary extends React.Component {
   }
 }
 
-QuotesLibrary.defaultProps = {
-  greeting: "Hello"
-}
 
 QuotesLibrary = Relay.createContainer(QuotesLibrary, {
   fragments: {
-    library: () => Relay.QL`
+    library: () => Relay.QL `
     fragment on QuotesLibrary {
       quotesConnection(first: 2) {
         edges {

@@ -3,6 +3,9 @@
 ### to run: $mongod && node index.js
 ### explore GraphQL queries and mutations with graphiql on http://localhost:3000/graphql  ctrl + space gives query autocomplete 
 
+## To Do
+* replace relay with Apollo
+* more mongodb
 
 ## GraphQL Schema
 

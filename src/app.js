@@ -46,3 +46,11 @@ ReactDOM.render(
   <Relay.RootContainer Component={QuotesLibrary} route={new AppRoute()} />,
   document.getElementById("react")
 );
+
+console.log(
+  Relay.QL `query AllQuotes {
+    allQuotes {
+      id
+text
+author }
+}` );

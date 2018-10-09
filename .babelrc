@@ -4,7 +4,7 @@
         "@babel/preset-react"
     ],
     "plugins": [
-        "relay",
+        ["relay", { "schema": "./cache/schema.json" }],
         "@babel/plugin-proposal-class-properties"
     ]
 }

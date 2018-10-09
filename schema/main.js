@@ -4,42 +4,57 @@ const {
     GraphQLString,
     GraphQLList,
   } = require('graphql')
+
+  const {
+    connectionDefinitions,
+    connectionArgs,
+    connectionFromArray,
+    connectionFromPromisedArray 
+  } = require('graphql-relay')
   
   const QuoteType = new GraphQLObjectType({
     name: "Quote",
-    fields: {
+    fields: () => ({
       id: {
         type: GraphQLString,
         resolve: obj => obj._id.toString()
       },
       text: { type: GraphQLString },
       author: { type: GraphQLString }
-    }
+    })
   })
+
+  const { connectionType: QuotesConnectionType } =
+     connectionDefinitions({
+       name: 'Quote',
+       nodeType: QuoteType
+     })
 
   const QuotesLibraryType = new GraphQLObjectType({
     name: 'QuotesLibrary',
-    fields: {
-      allQuotes: {
-        type: new GraphQLList(QuoteType),
-        description: "A list of the quotes in the database",
-        resolve: (_, args, { db }) => 
-          db.collection('quotes').find().toArray()
+    fields: () => ({
+      quotesConnection: {
+        type: QuotesConnectionType,
+        description: 'A list of the quotes in the database',
+        args: connectionArgs,
+        resolve: (_, args, { db }) => connectionFromPromisedArray(
+          db.collection('quotes').find().toArray(),
+          args )
       }
-    }
+    })
   })
 
   const quotesLibrary = {}
 
   const queryType = new GraphQLObjectType({
     name: 'RootQuery',
-    fields: {
+    fields: () => ({
       quotesLibrary: {
         type: QuotesLibraryType,
         description: "The Quotes Library",
         resolve: () => quotesLibrary 
       }
-    }
+    })
   })
   
   const mySchema = new GraphQLSchema({

@@ -2,10 +2,7 @@ const {
     GraphQLSchema,
     GraphQLObjectType,
     GraphQLString,
-    GraphQLInt,
     GraphQLList,
-    GraphQLBoolean,
-    GraphQLEnumType
   } = require('graphql')
   
   const QuoteType = new GraphQLObjectType({
@@ -13,27 +10,34 @@ const {
     fields: {
       id: {
         type: GraphQLString,
-        resolve: obj => obj._id
+        resolve: obj => obj._id.toString()
       },
       text: { type: GraphQLString },
       author: { type: GraphQLString }
     }
   })
 
-  const queryType = new GraphQLObjectType({
-    name: 'RootQuery',
+  const QuotesLibraryType = new GraphQLObjectType({
+    name: 'QuotesLibrary',
     fields: {
       allQuotes: {
         type: new GraphQLList(QuoteType),
         description: "A list of the quotes in the database",
         resolve: (_, args, { db }) => 
           db.collection('quotes').find().toArray()
-      },
-      usersCount: {
-        type: GraphQLInt,
-        description: "Total number of users in database",
-        resolve: (_, args, { db }) =>
-          db.collection('users').count()
+      }
+    }
+  })
+
+  const quotesLibrary = {}
+
+  const queryType = new GraphQLObjectType({
+    name: 'RootQuery',
+    fields: {
+      quotesLibrary: {
+        type: QuotesLibraryType,
+        description: "The Quotes Library",
+        resolve: () => quotesLibrary 
       }
     }
   })

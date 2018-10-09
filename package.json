@@ -28,5 +28,11 @@
   },
   "devDependencies": {
     "webpack-cli": "^3.1.0"
+  },
+  "nodemonConfig": {
+    "ignore": ["cache/*"]
+  },
+  "scripts": {
+    "dev": "webpack & nodemon ./" 
   }
 }

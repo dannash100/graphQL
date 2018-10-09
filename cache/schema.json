@@ -13,6 +13,29 @@
           "description": null,
           "fields": [
             {
+              "name": "quotesLibrary",
+              "description": "The Quotes Library",
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "QuotesLibrary",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "QuotesLibrary",
+          "description": null,
+          "fields": [
+            {
               "name": "allQuotes",
               "description": "A list of the quotes in the database",
               "args": [],
@@ -24,18 +47,6 @@
                   "name": "Quote",
                   "ofType": null
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "usersCount",
-              "description": "Total number of users in database",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -97,16 +108,6 @@
           "kind": "SCALAR",
           "name": "String",
           "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "Int",
-          "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. ",
           "fields": null,
           "inputFields": null,
           "interfaces": null,

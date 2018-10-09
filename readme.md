@@ -171,7 +171,7 @@ fragment Planets on SolarSystem {
 * inline fragments - if a type covers multiple objects
 
 
-## Unions 
+### Unions 
 
 * Unions can group two objects that don't have any fields in common with a certain logic. 
 * Union to represent a resume section that can be either education or experience type. 

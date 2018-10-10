@@ -28,7 +28,6 @@ class QuotesLibrary extends React.Component {
   }
 }
 
-
 QuotesLibrary = Relay.createContainer(QuotesLibrary, {
   fragments: {
     library: () => Relay.QL `

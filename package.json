@@ -20,6 +20,7 @@
     "express-graphql": "0.5.3",
     "graphql": "^14.0.2",
     "graphql-relay": "0.4.2",
+    "lodash": "^4.17.11",
     "mongodb": "2.2.5",
     "nodemon": "^1.18.4",
     "prop-types": "^15.6.2",

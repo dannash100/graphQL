@@ -173,6 +173,17 @@ fragment Planets on SolarSystem {
 * can use variables in fragments- if used the variable has to be defined by the operation that uses the fragment
 * inline fragments - if a type covers multiple objects
 
+### Pagination 
+
+* connection model using edges and nodes allows for abilitiy to paginate through lists
+* ask for information 
+* slice plural searches with 
+```javascript
+dogs(first:2 offset: 2)
+dogs(first:2 after:$dogId)
+```
+
+
 
 ### Unions 
 

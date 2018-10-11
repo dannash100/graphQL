@@ -7,22 +7,45 @@ const {
   } = require('graphql')
 
 const {
+  globalIdField,
+  fromGlobalId,
+  nodeDefinitions,
   connectionDefinitions,
   connectionArgs,
   connectionFromArray,
   connectionFromPromisedArray 
 } = require('graphql-relay')
 
+const { ObjectID } = require('mongodb')
+
 let connectionArgsWithSearch = connectionArgs
 connectionArgsWithSearch.searchTerm = { type: GraphQLString }
 
+
+const globalIdFetcher = (globalId, { db }) => {
+  const {type, id} = fromGlobalId(globalId)
+  switch (type) {
+    case 'QuotesLibrary':
+      return quotesLibrary
+    case 'Quote':
+      return db.collection('quotes').findOne(ObjectID(id))
+    default:
+      return null
+  }
+}
+
+const globalTypeResolver = obj => obj.type || QuoteType
+
+const { nodeInterface, nodeField } = nodeDefinitions(
+  globalIdFetcher,
+  globalTypeResolver
+)
+
 const QuoteType = new GraphQLObjectType({
   name: "Quote",
+  interfaces: [nodeInterface],
   fields: () => ({
-    id: {
-      type: GraphQLString,
-      resolve: obj => obj._id.toString()
-    },
+    id: globalIdField('Quote', obj => obj._id),
     text: { type: GraphQLString },
     author: { type: GraphQLString },
     likesCount: {
@@ -40,7 +63,9 @@ const { connectionType: QuotesConnectionType } =
 
 const QuotesLibraryType = new GraphQLObjectType({
   name: 'QuotesLibrary',
+  interfaces: [nodeInterface],
   fields: () => ({
+    id: globalIdField('QuotesLibrary'),
     quotesConnection: {
       type: QuotesConnectionType,
       description: 'A list of the quotes in the database',
@@ -59,11 +84,12 @@ const QuotesLibraryType = new GraphQLObjectType({
   })
 })
 
-const quotesLibrary = {}
+const quotesLibrary = { type: QuotesLibraryType }
 
 const queryType = new GraphQLObjectType({
   name: 'RootQuery',
   fields: () => ({
+    node: nodeField,
     quotesLibrary: {
       type: QuotesLibraryType,
       description: "The Quotes Library",

@@ -9,7 +9,7 @@ class Quote extends React.Component {
     }
     return (
       <div>
-        {this.props.quite.likesCount} &nbsp;
+        {this.props.quote.likesCount} &nbsp;
         <span className="glyphicon glyphicon-thumps-up">
         </span>
       </div>

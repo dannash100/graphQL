@@ -222,6 +222,37 @@ title }
 
 * a good runtime implementation executes multiple mutations in a single request
 * can read and write at same time 
+* construct a RootMutation that contains mutation fields which is fed into Schema
+* mutation types contain: 
+    - inputFields: wraps the actual inut values we want to pass into the mutation such as in id to specify which entry in         the database the mutation will apply to
+    - outputFields: fields to be read after a complete mutation - i.e return the database entry with the mutation applied
+    - mutateAndGetPayload: connects input and output fields: invoke mutation logic and return payload to the output fields.
+    - object returned from mutateAndGetPayload will be accessed within output fields resolve function as the first argument. 
+
+``` javascript
+const thumbsUpMutation = mutationWithClientMutationId({
+  name: 'ThumbsUpMutation',
+  inputFields: {
+    quoteId: { type: GraphQLString }
+  },
+  outputFields: {
+    quote: {
+      type: QuoteType,
+      resolve: obj => obj
+    }
+  },
+  mutateAndGetPayload: (params, { db }) => {
+    const { id } = fromGlobalId(params.quoteId)
+    return Promise.resolve(
+      db.collection('quotes').updateOne(
+        { _id: ObjectID(id) },
+        { $inc: {likesCount: 1}}
+      )
+    ).then(result => 
+      db.collection('quotes').findOne(ObjectID(id)))
+  }
+})
+```
 
 ### Caching Schema in JSON file
 

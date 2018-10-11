@@ -13,7 +13,8 @@ const {
   connectionDefinitions,
   connectionArgs,
   connectionFromArray,
-  connectionFromPromisedArray 
+  connectionFromPromisedArray,
+  mutationWithClientMutationId
 } = require('graphql-relay')
 
 const { ObjectID } = require('mongodb')
@@ -86,6 +87,37 @@ const QuotesLibraryType = new GraphQLObjectType({
 
 const quotesLibrary = { type: QuotesLibraryType }
 
+const thumbsUpMutation = mutationWithClientMutationId({
+  name: 'ThumbsUpMutation',
+  inputFields: {
+    quoteId: { type: GraphQLString }
+  },
+  outputFields: {
+    quote: {
+      type: QuoteType,
+      resolve: obj => obj
+    }
+  },
+  mutateAndGetPayload: (params, { db }) => {
+    const { id } = fromGlobalId(params.quoteId)
+    return Promise.resolve(
+      db.collection('quotes').updateOne(
+        { _id: ObjectID(id) },
+        { $inc: {likesCount: 1}}
+      )
+    ).then(result => 
+      db.collection('quotes').findOne(ObjectID(id)))
+  }
+})
+
+const mutationType = new GraphQLObjectType({
+  name: 'RootMutation',
+  fields: () => ({
+    thumbsUp: thumbsUpMutation
+  })
+  
+})
+
 const queryType = new GraphQLObjectType({
   name: 'RootQuery',
   fields: () => ({
@@ -100,6 +132,7 @@ const queryType = new GraphQLObjectType({
 
 const mySchema = new GraphQLSchema({
   query: queryType,
+  mutation: mutationType
 })
 
 module.exports = mySchema

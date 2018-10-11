@@ -21,31 +21,47 @@ class AppRoute extends Relay.Route {
 }
 
 class QuotesLibrary extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.search = debounce(this.search.bind(this), 300)
+  }
+
+  search(searchTerm) {
+    this.props.relay.setVariables({searchTerm})
+  }
+
   render() {
     return (
-      <div className="quotes-list">
-        {this.props.library.quotesConnection.edges.map(edge => 
-          <Quote key={edge.node.id} quote={edge.node} />
-        )}
+      <div className="quotes-library">
+        <SearchForm searchAction={this.search} />
+        <div className="quotes-list">
+          {this.props.library.quotesConnection.edges.map(edge => 
+            <Quote key={edge.node.id} quote={edge.node} />
+            )}
+        </div>
       </div>
     );
   }
 }
 
 QuotesLibrary = Relay.createContainer(QuotesLibrary, {
+  initialVariables: {
+    searchTerm: ''
+  },
   fragments: {
     library: () => Relay.QL `
-    fragment on QuotesLibrary {
-      quotesConnection(first: 2) {
-        edges {
-          node { 
-            id
-            ${Quote.getFragment('quote')}
-          }
-        } 
-      }
-    } 
-`
+      fragment on QuotesLibrary {
+        quotesConnection(first: 100, searchTerm: $searchTerm) {
+          edges {
+            node { 
+              id
+              ${Quote.getFragment('quote')}
+            }
+          } 
+        }
+      } 
+    `
   }
 });
 

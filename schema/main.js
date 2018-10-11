@@ -3,6 +3,7 @@ const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLList,
+    GraphQLInt
   } = require('graphql')
 
 const {
@@ -23,7 +24,11 @@ const QuoteType = new GraphQLObjectType({
       resolve: obj => obj._id.toString()
     },
     text: { type: GraphQLString },
-    author: { type: GraphQLString }
+    author: { type: GraphQLString },
+    likesCount: {
+      type: GraphQLInt,
+      resolve: () => Math.floor(10 * Math.random())
+    }
   })
 })
 

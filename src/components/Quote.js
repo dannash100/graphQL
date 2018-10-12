@@ -4,7 +4,13 @@ import ThumbsUpMutation from '../mutations/ThumbsUpMutation'
 
 
 class Quote extends React.Component {
+
+  state = {
+    liked: false
+  }
+
   displayLikes() {
+    let liked = this.state.liked
     if (!this.props.relay.variables.showLikes) {
       return null
     }
@@ -12,6 +18,7 @@ class Quote extends React.Component {
       <div>
         {this.props.quote.likesCount} &nbsp;
         <span className="glyphicon glyphicon-thumbs-up"
+          style={liked? {color:'green'} : {color: 'black'}}
           onClick={this.thumbsUpClick}>
         </span>
       </div>
@@ -19,11 +26,14 @@ class Quote extends React.Component {
   }
 
   thumbsUpClick = () => {
-    Relay.Store.commitUpdate(
-      new ThumbsUpMutation({
-        quote: this.props.quote
-      })
-    )
+    if(!this.state.liked) {
+      Relay.Store.commitUpdate(
+        new ThumbsUpMutation({
+          quote: this.props.quote
+        })
+      )
+    this.setState({liked: true})    
+    }
   }
   
   showLikes = () => {

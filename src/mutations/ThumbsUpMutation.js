@@ -15,9 +15,9 @@ class ThumbsUpMutation extends Relay.Mutation {
     // specify name of GraphQL mutation field to invoke
     getMutation() {
         return Relay.QL `
-        mutation {
-            thumbsUp
-        }
+            mutation {
+                thumbsUp
+            }
         `
     }
     // define structure of input object

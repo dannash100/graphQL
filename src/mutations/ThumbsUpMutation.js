@@ -8,6 +8,7 @@ class ThumbsUpMutation extends Relay.Mutation {
         quote: () => Relay.QL `
             fragment on Quote {
                 id
+                likesCount
             }
         `
     }
@@ -47,6 +48,16 @@ class ThumbsUpMutation extends Relay.Mutation {
             }
         ]
     }
+    // change UI immediately after mutation is invoked for better responsive design
+    getOptimisticResponse() {
+        return {
+            quote: {
+                id: this.props.quote.id,
+                likesCount: this.props.quote.likesCount + 1
+            }
+        }
+    }
+
 }
 
 export default ThumbsUpMutation

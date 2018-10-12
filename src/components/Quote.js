@@ -1,5 +1,6 @@
 import React from "react";
 import Relay from "react-relay/classic";
+import ThumbsUpMutation from '../mutations/ThumbsUpMutation'
 
 
 class Quote extends React.Component {
@@ -10,9 +11,18 @@ class Quote extends React.Component {
     return (
       <div>
         {this.props.quote.likesCount} &nbsp;
-        <span className="glyphicon glyphicon-thumps-up">
+        <span className="glyphicon glyphicon-thumbs-up"
+          onClick={this.thumbsUpClick}>
         </span>
       </div>
+    )
+  }
+
+  thumbsUpClick = () => {
+    Relay.Store.commitUpdate(
+      new ThumbsUpMutation({
+        quote: this.props.quote
+      })
     )
   }
   
@@ -38,6 +48,7 @@ Quote = Relay.createContainer(Quote, {
   fragments: {
     quote: () => Relay.QL `
       fragment OneQuote on Quote {
+        ${ThumbsUpMutation.getFragment('quote')}
         text
         author
         likesCount @include(if: $showLikes)

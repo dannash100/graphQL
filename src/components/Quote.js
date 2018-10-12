@@ -26,7 +26,8 @@ class Quote extends React.Component {
   }
 
   thumbsUpClick = () => {
-    if(!this.state.liked) {
+    let liked = this.state.liked
+    if(!liked) {
       Relay.Store.commitUpdate(
         new ThumbsUpMutation({
           quote: this.props.quote

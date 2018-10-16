@@ -4,7 +4,9 @@
 ### explore GraphQL queries and mutations with graphiql on http://localhost:3000/graphql  ctrl + space gives query autocomplete 
 
 ## To Do
-* replace relay with Apollo
+* Next.js
+* GraphQL Yoga, Prisma database interface
+* Apollo Client
 * more mongodb
 
 ## GraphQL Schema

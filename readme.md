@@ -1,6 +1,6 @@
 # Notes on Learning GraphQL by Samer Buna, 2016, Packt Publishing
 
-### to run: $mongod && node index.js
+### to run: $mongod & node index.js
 ### explore GraphQL queries and mutations with graphiql on http://localhost:3000/graphql  ctrl + space gives query autocomplete 
 
 ## To Do
